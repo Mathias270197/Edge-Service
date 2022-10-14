@@ -1,6 +1,4 @@
-package config;
-
-import org.springframework.context.annotation.Configuration;
+package com.example.edgeservice.config;
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,9 +23,9 @@ public class SwaggerConfig {
     }
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("Products API")
-                .description("This page list all the rest apis for the products API.")
-                .version("1.0-SNAPSHOT")
-                .build();
+                .title("Edge-service api")
+                .description("This page list all the rest apis for the edge-service API.")
+                                .version("1.0-SNAPSHOT")
+                                .build();
     }
 }
