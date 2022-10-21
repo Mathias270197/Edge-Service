@@ -34,25 +34,24 @@ public class FigureReviewStepsController {
 
         ResponseEntity<List<FigureReview>> responseEntityFigureReviews =
                 restTemplate.exchange("http://" + figureReviewServiceBaseUrl + "/figureReviews",
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<FigureReview>>() {});
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<FigureReview>>() {
+                        });
 
         List<FigureReview> figures = responseEntityFigureReviews.getBody();
 
         List<String> figureNames = new ArrayList<>();
         for (FigureReview figure : figures) {
-            if(!figureNames.contains(figure.getFigureName())){
+            if (!figureNames.contains(figure.getFigureName())) {
                 figureNames.add(figure.getFigureName());
                 ResponseEntity<List<Step>> responseEntitySteps =
                         restTemplate.exchange("http://" + stepServiceBaseUrl + "/steps/figure/" + figure.getFigureName(),
-                                HttpMethod.GET, null, new ParameterizedTypeReference<List<Step>>() {});
+                                HttpMethod.GET, null, new ParameterizedTypeReference<List<Step>>() {
+                                });
 
                 returnList.add(new NumberOfStepReviews(figure.getFigureName(), responseEntitySteps.getBody().size()));
-
             }
 
-
         }
-
         return returnList;
     }
 

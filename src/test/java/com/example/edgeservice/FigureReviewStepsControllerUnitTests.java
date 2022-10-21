@@ -75,6 +75,7 @@ public class FigureReviewStepsControllerUnitTests {
     private Step stepChicken1 = new Step(1, "Chicken", false);
     private Step stepChicken2 = new Step(2, "Chicken", true);
 
+
     @BeforeEach
     public void initializeMockserver() {
         mockServer = MockRestServiceServer.createServer(restTemplate);
@@ -83,6 +84,9 @@ public class FigureReviewStepsControllerUnitTests {
     private List<Step> allStepsFromDuck = Arrays.asList(stepDuck1,stepDuck2 );
     private List<Step> allStepsFromChicken = Arrays.asList(stepChicken1,stepChicken2 );
     private Step[] allStepsFromCar = new Step[0];
+
+
+    private List<FigureReview> duckReviews = Arrays.asList(reviewStijnDuck,reviewMathiasDuck );
 
 
 
@@ -143,7 +147,8 @@ public class FigureReviewStepsControllerUnitTests {
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(mapper.writeValueAsString(allStepsFromDuck))
+                        .body(mapper.writeValueAsString(allStepsFromChicken))
+
                 );
         // GET Car steps
         mockServer.expect(ExpectedCount.once(),
@@ -151,26 +156,82 @@ public class FigureReviewStepsControllerUnitTests {
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(mapper.writeValueAsString(allStepsFromDuck))
+                        .body(mapper.writeValueAsString(allStepsFromCar))
                 );
 
 
-        mockMvc.perform(get("/figureReviews"))
+        mockMvc.perform(get("/numberOfStepReviewsByFigure"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].bookTitle", is("Book2")))
-                .andExpect(jsonPath("$[0].isbn", is("ISBN2")))
-                .andExpect(jsonPath("$[0].userScores[0].userId", is(1)))
-                .andExpect(jsonPath("$[0].userScores[0].scoreNumber", is(2)))
-                .andExpect(jsonPath("$[1].bookTitle", is("Book1")))
-                .andExpect(jsonPath("$[1].isbn", is("ISBN1")))
-                .andExpect(jsonPath("$[1].userScores[0].userId", is(1)))
-                .andExpect(jsonPath("$[1].userScores[0].scoreNumber", is(1)));
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].name", is("Duck")))
+                .andExpect(jsonPath("$[0].numberOfSteps", is(2)))
+                .andExpect(jsonPath("$[1].name", is("Chicken")))
+                .andExpect(jsonPath("$[1].numberOfSteps", is(2)))
+                .andExpect(jsonPath("$[2].name", is("Car")))
+                .andExpect(jsonPath("$[2].numberOfSteps", is(0)));
     }
 
+    @Test
+    public void whenGetReviewAndStepsOfFigureDuck_thenReturnJson() throws Exception {
+
+        // GET all figureReviews
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviewsByName/Duck")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(duckReviews))
+                );
+
+        // GET Duck steps
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Duck")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(allStepsFromDuck))
+                );
+//        // GET Chicken steps
+//        mockServer.expect(ExpectedCount.once(),
+//                        requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Chicken")))
+//                .andExpect(method(HttpMethod.GET))
+//                .andRespond(withStatus(HttpStatus.OK)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(mapper.writeValueAsString(allStepsFromChicken))
+//                );
+//        // GET Car steps
+//        mockServer.expect(ExpectedCount.once(),
+//                        requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Car")))
+//                .andExpect(method(HttpMethod.GET))
+//                .andRespond(withStatus(HttpStatus.OK)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .body(mapper.writeValueAsString(allStepsFromCar))
+//                );
 
 
+        mockMvc.perform(get("/reviewAndStepsOfFigure/{figureName}", "Duck"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.figureReviews", hasSize(2)))
+                .andExpect(jsonPath("$.steps", hasSize(2)))
+                .andExpect(jsonPath("$.figureReviews[0].figureName", is("Duck")))
+                .andExpect(jsonPath("$.figureReviews[0].textReview", is("Stukken passen niet goed")))
+                .andExpect(jsonPath("$.figureReviews[0].stars", is(2)))
+                .andExpect(jsonPath("$.figureReviews[0].user", is("Stijn")))
+                .andExpect(jsonPath("$.figureReviews[1].figureName", is("Duck")))
+                .andExpect(jsonPath("$.figureReviews[1].textReview", is("Moeilijke stappen")))
+                .andExpect(jsonPath("$.figureReviews[1].stars", is(3)))
+                .andExpect(jsonPath("$.figureReviews[1].user", is("Mathias")))
+                .andExpect(jsonPath("$.steps[0].stepNumber", is(1)))
+                .andExpect(jsonPath("$.steps[0].figure", is("Duck")))
+                .andExpect(jsonPath("$.steps[0].stepIsClear", is(true)))
+                .andExpect(jsonPath("$.steps[1].stepNumber", is(2)))
+                .andExpect(jsonPath("$.steps[1].figure", is("Duck")))
+                .andExpect(jsonPath("$.steps[1].stepIsClear", is(false)));
+
+
+    }
 
 
 //

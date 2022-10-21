@@ -9,19 +9,12 @@ public class FigureReview {
     private String id;
     private String figureName;
 
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    private String user;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date date = new Date();
     private String textReview;
     private Integer stars;
+
+    private String user;
 
     public FigureReview() {
     }
@@ -46,16 +39,33 @@ public class FigureReview {
         return figureName;
     }
 
-    public void setFigureName(String figureName) {
-        this.figureName = figureName;
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getId() {
         return id;
+
     }
 
-    public void setId(String id) {
+    public FigureReview(String id, String figureName, Date date, String textReview, Integer stars, String user) {
         this.id = id;
+        this.figureName = figureName;
+        this.date = date;
+        this.textReview = textReview;
+        this.stars = stars;
+        this.user = user;
+    }
+
+
+
+    public void setFigureName(String figureName) {
+        this.figureName = figureName;
+
     }
 
     public Date getDate() {
