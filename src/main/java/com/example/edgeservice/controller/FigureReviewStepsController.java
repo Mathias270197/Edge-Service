@@ -3,7 +3,7 @@ package com.example.edgeservice.controller;
 
 import com.example.edgeservice.model.FigureReview;
 import com.example.edgeservice.model.FigureReviewsAndSteps;
-import com.example.edgeservice.model.NumberOfSteps;
+import com.example.edgeservice.model.NumberOfStepReviews;
 import com.example.edgeservice.model.Step;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,26 +28,31 @@ public class FigureReviewStepsController {
     @Value("${stepService.baseurl}")
     private String stepServiceBaseUrl;
 
-    @GetMapping("/numberOfStepsByFigure")
-    public List<NumberOfSteps> getNumberOfStepsByFigure(){
+    @GetMapping("/numberOfStepReviewsByFigure")
+    public List<NumberOfStepReviews> getNumberOfStepsByFigure() {
 
-        List<NumberOfSteps> returnList= new ArrayList();
+        List<NumberOfStepReviews> returnList = new ArrayList();
 
         ResponseEntity<List<FigureReview>> responseEntityFigureReviews =
                 restTemplate.exchange("http://" + figureReviewServiceBaseUrl + "/figureReviews",
-                        HttpMethod.GET, null, new ParameterizedTypeReference<List<FigureReview>>() {});
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<FigureReview>>() {
+                        });
 
         List<FigureReview> figures = responseEntityFigureReviews.getBody();
 
 
+        List<String> figureNames = new ArrayList<>();
         for (FigureReview figure : figures) {
-            ResponseEntity<List<Step>> responseEntitySteps =
-                    restTemplate.exchange("http://" + stepServiceBaseUrl + "/steps/figure/" + figure.getName(),
-                            HttpMethod.GET, null, new ParameterizedTypeReference<List<Step>>() {});
+            if (!figureNames.contains(figure.getFigureName())) {
+                figureNames.add(figure.getFigureName());
+                ResponseEntity<List<Step>> responseEntitySteps =
+                        restTemplate.exchange("http://" + stepServiceBaseUrl + "/steps/figure/" + figure.getFigureName(),
+                                HttpMethod.GET, null, new ParameterizedTypeReference<List<Step>>() {
+                                });
 
-            returnList.add(new NumberOfSteps(figure.getName(), responseEntitySteps.getBody().size()));
+                returnList.add(new NumberOfStepReviews(figure.getFigureName(), responseEntitySteps.getBody().size()));
+            }
         }
-
         return returnList;
     }
 

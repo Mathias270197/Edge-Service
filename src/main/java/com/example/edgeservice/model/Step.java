@@ -7,6 +7,14 @@ public class Step {
     private String figure;
     private boolean stepIsClear;
 
+    public Step(){};
+
+    public Step(int stepNumber, String figure, boolean stepIsClear){
+        setStepNumber(stepNumber);
+        setFigure(figure);
+        setStepIsClear(stepIsClear);
+    }
+
     public int getId() {
         return id;
     }

@@ -1,10 +1,10 @@
 package com.example.edgeservice.model;
 
-public class NumberOfSteps {
+public class NumberOfStepReviews {
     private String name;
     private Integer numberOfSteps;
 
-    public NumberOfSteps(String name, Integer numberOfSteps) {
+    public NumberOfStepReviews(String name, Integer numberOfSteps) {
         this.name = name;
         this.numberOfSteps = numberOfSteps;
     }
