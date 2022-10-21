@@ -268,6 +268,79 @@ public class FigureReviewStepsControllerUnitTests {
 //    }
 
 
+    @Test
+    public void whenAddFigureReview_thenReturnJson() throws Exception {
+
+        FigureReview reviewMathiasChicken = new FigureReview("Chicken", textReview3, 3, "Mathias");
+
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReview")))
+                .andExpect(method(HttpMethod.POST))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(reviewMathiasChicken))
+                );
+
+        mockMvc.perform(post("/figureReview")
+                        .content(mapper.writeValueAsString(reviewMathiasChicken))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.figureName", is("Chicken")))
+                .andExpect(jsonPath("$.textReview", is(textReview3)))
+                .andExpect(jsonPath("$.user", is("Mathias")))
+                .andExpect(jsonPath("$.stars", is(3)));
+    }
+
+    @Test
+    public void whenUpdateFigureReview_thenReturnJson() throws Exception {
+
+        FigureReview updatedReviewStijnDuck = new FigureReview("Duck" ,textReview1, 2, "Stijn");
+
+        // GET review from User 1 of Book 1
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviewByNameAndUser/" + updatedReviewStijnDuck.getFigureName() + "/" + updatedReviewStijnDuck.getUser())))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(reviewStijnDuck))
+                );
+
+        // PUT review from User 1 for Book 1 with new score 5
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReview")))
+                .andExpect(method(HttpMethod.PUT))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(updatedReviewStijnDuck))
+                );
+
+
+        mockMvc.perform(put("/figureReview")
+                        .content(mapper.writeValueAsString(updatedReviewStijnDuck))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.figureName", is("Duck")))
+                .andExpect(jsonPath("$.textReview", is(textReview1)))
+                .andExpect(jsonPath("$.user", is("Stijn")))
+                .andExpect(jsonPath("$.stars", is(2)));
+
+    }
+
+    @Test
+    public void whenDeleteFigureReview_thenReturnStatusOk() throws Exception {
+
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviews/name/Car/user/Stijn")))
+                .andExpect(method(HttpMethod.DELETE))
+                .andRespond(withStatus(HttpStatus.OK)
+                );
+
+        mockMvc.perform(delete("/figureReviewByNameAndUser/{figureName}/{user}", "Car", "Stijn"))
+                .andExpect(status().isOk());
+    }
+
+
 
 
 

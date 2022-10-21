@@ -15,16 +15,11 @@ public class NumberOfStepReviews {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 
     public Integer getNumberOfSteps() {
         return numberOfSteps;
     }
 
-    public void setNumberOfSteps(Integer numberOfSteps) {
-        this.numberOfSteps = numberOfSteps;
 
-    }
 }

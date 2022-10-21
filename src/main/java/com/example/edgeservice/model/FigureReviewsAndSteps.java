@@ -15,15 +15,8 @@ public class FigureReviewsAndSteps {
         return figureReviews;
     }
 
-    public void setFigureReviews(List<FigureReview> figureReviews) {
-        this.figureReviews = figureReviews;
-    }
-
     public List<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
-    }
 }

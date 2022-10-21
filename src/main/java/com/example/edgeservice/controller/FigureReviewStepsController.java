@@ -8,6 +8,7 @@ import com.example.edgeservice.model.Step;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,8 +78,9 @@ public class FigureReviewStepsController {
 
 
 
-    @PostMapping("/rankings")
-    public FigureReview addFigureReview(@RequestParam FigureReview figureReview){
+    @PostMapping("/figureReview")
+    public FigureReview addFigureReview(@RequestBody FigureReview figureReview){
+
 
         FigureReview newFigureReview =
                 restTemplate.postForObject("http://" + figureReviewServiceBaseUrl + "/figureReview",
@@ -87,33 +89,50 @@ public class FigureReviewStepsController {
         return newFigureReview;
     }
 
-    /*@PutMapping("/rankings")
-    public FilledBookReview updateRanking(@RequestParam Integer userId, @RequestParam String ISBN, @RequestParam Integer score){
 
-        Review review =
-                restTemplate.getForObject("http://" + reviewServiceBaseUrl + "/reviews/user/" + userId + "/book/" + ISBN,
-                        Review.class);
-        review.setScoreNumber(score);
 
-        ResponseEntity<Review> responseEntityReview =
-                restTemplate.exchange("http://" + reviewServiceBaseUrl + "/reviews",
-                        HttpMethod.PUT, new HttpEntity<>(review), Review.class);
+    @PutMapping("/figureReview")
+    public FigureReview updateRanking(@RequestBody FigureReview figureReview){
 
-        Review retrievedReview = responseEntityReview.getBody();
+        FigureReview newFigureReview =
+                restTemplate.getForObject("http://" + figureReviewServiceBaseUrl + "/figureReviewByNameAndUser/" + figureReview.getFigureName() + "/" + figureReview.getUser(),
+                        FigureReview.class);
 
-        Book book =
-                restTemplate.getForObject("http://" + bookInfoServiceBaseUrl + "/books/{ISBN}",
-                        Book.class,ISBN);
+        String newTextReview = figureReview.getTextReview();
+        Integer newStars = figureReview.getStars();
+        boolean adjusted = false;
 
-        return new FilledBookReview(book, retrievedReview);
+        if (newTextReview != null) {
+            newFigureReview.setTextReview(newTextReview);
+            adjusted = true;
+        }
+
+        if (newStars != null) {
+            newFigureReview.setStars(figureReview.getStars());
+            adjusted = true;
+        }
+        if (adjusted) {
+            newFigureReview.setDate(new Date());
+        }
+
+
+        ResponseEntity<FigureReview> responseEntityFigureReview =
+                restTemplate.exchange("http://" + figureReviewServiceBaseUrl + "/figureReview",
+                        HttpMethod.PUT, new HttpEntity<>(figureReview), FigureReview.class);
+
+        FigureReview retrievedFigureReview = responseEntityFigureReview.getBody();
+
+        return retrievedFigureReview;
+
     }
 
-    @DeleteMapping("/rankings/{userId}/book/{ISBN}")
-    public ResponseEntity deleteRanking(@PathVariable Integer userId, @PathVariable String ISBN){
 
-        restTemplate.delete("http://" + reviewServiceBaseUrl + "/reviews/user/" + userId + "/book/" + ISBN);
+    @DeleteMapping("/figureReviewByNameAndUser/{figureName}/{user}")
+    public ResponseEntity deleteRanking(@PathVariable String figureName, @PathVariable String user){
+
+        restTemplate.delete("http://" + figureReviewServiceBaseUrl + "figureReviews/name/"+figureName+"/user/" + user);
 
         return ResponseEntity.ok().build();
-    }*/
+    }
 
 }
