@@ -85,7 +85,9 @@ public class FigureReviewStepsControllerUnitTests {
     private List<Step> allStepsFromChicken = Arrays.asList(stepChicken1,stepChicken2 );
     private Step[] allStepsFromCar = new Step[0];
 
+
     private List<FigureReview> duckReviews = Arrays.asList(reviewStijnDuck,reviewMathiasDuck );
+
 
 
 //    public List<NumberOfStepReviews> getNumberOfStepReviewsByFigure(){
@@ -146,6 +148,7 @@ public class FigureReviewStepsControllerUnitTests {
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(mapper.writeValueAsString(allStepsFromChicken))
+
                 );
         // GET Car steps
         mockServer.expect(ExpectedCount.once(),
@@ -229,6 +232,7 @@ public class FigureReviewStepsControllerUnitTests {
 
 
     }
+
 
 //
 //    @GetMapping("/reviewAndStepsOfFigure/{figureName}")

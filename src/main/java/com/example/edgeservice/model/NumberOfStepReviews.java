@@ -2,11 +2,13 @@ package com.example.edgeservice.model;
 
 public class NumberOfStepReviews {
     private String name;
+
     private Integer numberOfSteps;
 
     public NumberOfStepReviews(String name, Integer numberOfSteps) {
         this.name = name;
         this.numberOfSteps = numberOfSteps;
+
     }
 
     public String getName() {
@@ -23,5 +25,6 @@ public class NumberOfStepReviews {
 
     public void setNumberOfSteps(Integer numberOfSteps) {
         this.numberOfSteps = numberOfSteps;
+
     }
 }
