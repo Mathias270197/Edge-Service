@@ -19,15 +19,6 @@ public class FigureReview {
     public FigureReview() {
     }
 
-//    public FigureReview(String id, String figureName, Date date, String textReview, Integer stars, String user) {
-//        this.id = id;
-//        this.figureName = figureName;
-//        this.date = date;
-//        this.textReview = textReview;
-//        this.stars = stars;
-//        this.user = user;
-//    }
-
     public FigureReview(String figureName, String textReview, Integer stars, String user) {
         this.figureName = figureName;
         this.textReview = textReview;

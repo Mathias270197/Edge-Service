@@ -13,7 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.*;
 
 @RestController
@@ -74,6 +73,34 @@ public class FigureReviewStepsController {
         FigureReviewsAndSteps figureReviewsAndSteps = new FigureReviewsAndSteps(figures, steps);
 
         return figureReviewsAndSteps;
+    }
+
+    @GetMapping("/figureReviewByNameAndUser/{figureName}/{user}")
+    public FigureReview getFigureReviewByNameAndUser(@PathVariable String figureName,@PathVariable String user){
+        ResponseEntity<FigureReview> responseEntityFigureReview =
+                restTemplate.exchange("http://" + figureReviewServiceBaseUrl + "/figureReviewByNameAndUser/" + figureName + "/" + user,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<FigureReview>() {});
+
+        FigureReview figureReview = responseEntityFigureReview.getBody();
+
+        return figureReview;
+    }
+
+    @GetMapping("/averageStarRatingOfFigure/{figureName}")
+    public Integer getAverageStarRatingOfFigure(@PathVariable String figureName){
+        ResponseEntity<List<FigureReview>> responseEntityFigureReview =
+                restTemplate.exchange("http://" + figureReviewServiceBaseUrl + "/figureReviewsByName/" + figureName,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<FigureReview>>() {});
+
+        List<FigureReview> figures = responseEntityFigureReview.getBody();
+
+        float totalStars = 0;
+        Integer numberOfReviews = figures.size();
+        for (FigureReview figure : figures) {
+            totalStars += figure.getStars();
+            }
+        Integer average = Math.round(totalStars/numberOfReviews);
+        return average;
     }
 
 

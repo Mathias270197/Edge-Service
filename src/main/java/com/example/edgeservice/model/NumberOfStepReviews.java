@@ -15,8 +15,6 @@ public class NumberOfStepReviews {
         return name;
     }
 
-
-
     public Integer getNumberOfSteps() {
         return numberOfSteps;
     }

@@ -1,9 +1,6 @@
 package com.example.edgeservice;
 
-
 import com.example.edgeservice.model.FigureReview;
-import com.example.edgeservice.model.FigureReviewsAndSteps;
-import com.example.edgeservice.model.NumberOfStepReviews;
 import com.example.edgeservice.model.Step;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,25 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
-
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -89,42 +77,13 @@ public class FigureReviewStepsControllerUnitTests {
     private List<FigureReview> duckReviews = Arrays.asList(reviewStijnDuck,reviewMathiasDuck );
 
 
-
-//    public List<NumberOfStepReviews> getNumberOfStepReviewsByFigure(){
-//
-//        List<NumberOfStepReviews> returnList= new ArrayList();
-//
-//        ResponseEntity<List<FigureReview>> responseEntityFigureReviews =
-//                restTemplate.exchange("http://" + figureReviewServiceBaseUrl + "/figureReviews",
-//                        HttpMethod.GET, null, new ParameterizedTypeReference<List<FigureReview>>() {});
-//
-//        List<FigureReview> figures = responseEntityFigureReviews.getBody();
-//
-//        List<String> figureNames = new ArrayList<>();
-//        for (FigureReview figure : figures) {
-//            if(!figureNames.contains(figure.getFigureName())){
-//                figureNames.add(figure.getFigureName());
-//                ResponseEntity<List<Step>> responseEntitySteps =
-//                        restTemplate.exchange("http://" + stepServiceBaseUrl + "/steps/figure/" + figure.getFigureName(),
-//                                HttpMethod.GET, null, new ParameterizedTypeReference<List<Step>>() {});
-//
-//                returnList.add(new NumberOfStepReviews(figure.getFigureName(), responseEntitySteps.getBody().size()));
-//
-//            }
-//
-//
-//        }
-//
-//        return returnList;
-//    }
-
     private List<FigureReview> allFigureReviews = Arrays.asList(reviewStijnDuck,reviewMathiasDuck,reviewStijnChicken,reviewToBeDeleted );
 
 
     @Test
     public void whenGetNumberOfStepReviewsByFigure_thenReturnJson() throws Exception {
 
-        // GET all figureReviews
+
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviews")))
                 .andExpect(method(HttpMethod.GET))
@@ -133,7 +92,7 @@ public class FigureReviewStepsControllerUnitTests {
                         .body(mapper.writeValueAsString(allFigureReviews))
                 );
 
-        // GET Duck steps
+
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Duck")))
                 .andExpect(method(HttpMethod.GET))
@@ -141,7 +100,7 @@ public class FigureReviewStepsControllerUnitTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(mapper.writeValueAsString(allStepsFromDuck))
                 );
-        // GET Chicken steps
+
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Chicken")))
                 .andExpect(method(HttpMethod.GET))
@@ -150,7 +109,7 @@ public class FigureReviewStepsControllerUnitTests {
                         .body(mapper.writeValueAsString(allStepsFromChicken))
 
                 );
-        // GET Car steps
+
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Car")))
                 .andExpect(method(HttpMethod.GET))
@@ -175,7 +134,6 @@ public class FigureReviewStepsControllerUnitTests {
     @Test
     public void whenGetReviewAndStepsOfFigureDuck_thenReturnJson() throws Exception {
 
-        // GET all figureReviews
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviewsByName/Duck")))
                 .andExpect(method(HttpMethod.GET))
@@ -184,7 +142,6 @@ public class FigureReviewStepsControllerUnitTests {
                         .body(mapper.writeValueAsString(duckReviews))
                 );
 
-        // GET Duck steps
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Duck")))
                 .andExpect(method(HttpMethod.GET))
@@ -192,22 +149,6 @@ public class FigureReviewStepsControllerUnitTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(mapper.writeValueAsString(allStepsFromDuck))
                 );
-//        // GET Chicken steps
-//        mockServer.expect(ExpectedCount.once(),
-//                        requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Chicken")))
-//                .andExpect(method(HttpMethod.GET))
-//                .andRespond(withStatus(HttpStatus.OK)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .body(mapper.writeValueAsString(allStepsFromChicken))
-//                );
-//        // GET Car steps
-//        mockServer.expect(ExpectedCount.once(),
-//                        requestTo(new URI("http://" + stepServiceBaseUrl + "/steps/figure/Car")))
-//                .andExpect(method(HttpMethod.GET))
-//                .andRespond(withStatus(HttpStatus.OK)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .body(mapper.writeValueAsString(allStepsFromCar))
-//                );
 
 
         mockMvc.perform(get("/reviewAndStepsOfFigure/{figureName}", "Duck"))
@@ -230,43 +171,50 @@ public class FigureReviewStepsControllerUnitTests {
                 .andExpect(jsonPath("$.steps[1].figure", is("Duck")))
                 .andExpect(jsonPath("$.steps[1].stepIsClear", is(false)));
 
+    }
+
+
+
+    @Test
+    public void whenGetFigureReviewByDuckAndStijn_thenReturnJson() throws Exception {
+
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviewByNameAndUser/Duck/Stijn")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(reviewStijnDuck))
+                );
+
+
+        mockMvc.perform(get("/figureReviewByNameAndUser/{figureName}/{user}", "Duck", "Stijn"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.figureName", is("Duck")))
+                .andExpect(jsonPath("$.textReview", is("Stukken passen niet goed")))
+                .andExpect(jsonPath("$.stars", is(2)))
+                .andExpect(jsonPath("$.user", is("Stijn")));
 
     }
 
 
-//
-//    @GetMapping("/reviewAndStepsOfFigure/{figureName}")
-//    public FigureReviewsAndSteps getReviewAndStepsOfFigure(@PathVariable String figureName){
-//        ResponseEntity<List<FigureReview>> responseEntityFigureReview =
-//                restTemplate.exchange("http://" + figureReviewServiceBaseUrl + "/figureReviewsByName/" + figureName,
-//                        HttpMethod.GET, null, new ParameterizedTypeReference<List<FigureReview>>() {});
-//
-//        List<FigureReview> figures = responseEntityFigureReview.getBody();
-//
-//
-//        ResponseEntity<List<Step>> responseEntitySteps =
-//                restTemplate.exchange("http://" + stepServiceBaseUrl + "/steps/figure/" + figureName,
-//                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Step>>() {});
-//
-//        List<Step> steps = responseEntitySteps.getBody();
-//
-//        FigureReviewsAndSteps figureReviewsAndSteps = new FigureReviewsAndSteps(figures, steps);
-//
-//        return figureReviewsAndSteps;
-//    }
-//
-//
-//
-//    @PostMapping("/rankings")
-//    public FigureReview addFigureReview(@RequestParam FigureReview figureReview){
-//
-//        FigureReview newFigureReview =
-//                restTemplate.postForObject("http://" + figureReviewServiceBaseUrl + "/figureReview",
-//                        new FigureReview(figureReview.getId(), figureReview.getFigureName(), figureReview.getDate(), figureReview.getTextReview(), figureReview.getStars(), figureReview.getUser()),FigureReview.class);
-//
-//        return newFigureReview;
-//    }
+    @Test
+    public void whenGetAverageStarRatingOfFigure_thenReturnInt() throws Exception {
 
+        mockServer.expect(ExpectedCount.once(),
+                        requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviewsByName/Duck")))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(mapper.writeValueAsString(duckReviews))
+                );
+
+
+        mockMvc.perform(get("/averageStarRatingOfFigure/{figureName}", "Duck"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is(3)));
+    }
 
     @Test
     public void whenAddFigureReview_thenReturnJson() throws Exception {
@@ -280,6 +228,7 @@ public class FigureReviewStepsControllerUnitTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(mapper.writeValueAsString(reviewMathiasChicken))
                 );
+
 
         mockMvc.perform(post("/figureReview")
                         .content(mapper.writeValueAsString(reviewMathiasChicken))
@@ -297,7 +246,6 @@ public class FigureReviewStepsControllerUnitTests {
 
         FigureReview updatedReviewStijnDuck = new FigureReview("Duck" ,textReview1, 2, "Stijn");
 
-        // GET review from User 1 of Book 1
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReviewByNameAndUser/" + updatedReviewStijnDuck.getFigureName() + "/" + updatedReviewStijnDuck.getUser())))
                 .andExpect(method(HttpMethod.GET))
@@ -306,7 +254,6 @@ public class FigureReviewStepsControllerUnitTests {
                         .body(mapper.writeValueAsString(reviewStijnDuck))
                 );
 
-        // PUT review from User 1 for Book 1 with new score 5
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://" + figureReviewServiceBaseUrl + "/figureReview")))
                 .andExpect(method(HttpMethod.PUT))
@@ -339,9 +286,5 @@ public class FigureReviewStepsControllerUnitTests {
         mockMvc.perform(delete("/figureReviewByNameAndUser/{figureName}/{user}", "Car", "Stijn"))
                 .andExpect(status().isOk());
     }
-
-
-
-
 
 }
