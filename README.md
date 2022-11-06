@@ -8,6 +8,8 @@ https://github.com/mathias270197/figurereview-service
 
 
 Swagger UI:
+
+
 ![image](https://user-images.githubusercontent.com/58940744/200191540-96894142-5a01-4603-8615-82a4f208c1c5.png)
 
 ![image](https://user-images.githubusercontent.com/58940744/200191520-026cef39-0483-4955-8ba6-1fb3a864239d.png)
