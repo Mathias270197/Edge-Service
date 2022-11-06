@@ -5,3 +5,8 @@ https://github.com/mathias270197/figurereview-service
 
 
 ![image](https://user-images.githubusercontent.com/58940744/200191287-2ef34358-0086-4185-a829-f5261dabc5b7.png)
+
+
+Swagger UI:
+![image](https://user-images.githubusercontent.com/58940744/200191520-026cef39-0483-4955-8ba6-1fb3a864239d.png)
+![Uploading image.png…]()
