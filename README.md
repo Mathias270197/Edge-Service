@@ -6,6 +6,37 @@ https://github.com/mathias270197/figurereview-service
 
 ![image](https://user-images.githubusercontent.com/58940744/200191287-2ef34358-0086-4185-a829-f5261dabc5b7.png)
 
+Postman:
+
+https://edge-service-mathias270197.cloud.okteto.net/numberOfStepReviewsByFigure
+ 
+
+https://edge-service-mathias270197.cloud.okteto.net/reviewAndStepsOfFigure/Duck
+ 
+ 
+
+https://edge-service-mathias270197.cloud.okteto.net/figureReview
+{"id":null,"figureName":"Chicken","date":1666947596193,"textReview":"Eenvoudige stappen","stars":3,"user":"Mathias"}
+
+
+
+ 
+
+https://edge-service-mathias270197.cloud.okteto.net/figureReview
+{"id":null,"figureName":"Chicken","date":1666947596193,"textReview":"Eenvoudige stappen, goed omschreven","stars":4,"user":"Mathias"}
+
+ 
+
+https://edge-service-mathias270197.cloud.okteto.net/figureReviewByNameAndUser/Chicken/Mathias
+ 
+
+https://edge-service-mathias270197.cloud.okteto.net//averageStarRatingOfFigure/House
+ 
+
+https://edge-service-mathias270197.cloud.okteto.net/figureReviewByNameAndUser/House/Stijn
+ 
+
+
 
 Swagger UI:
 
