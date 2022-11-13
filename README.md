@@ -9,32 +9,46 @@ https://github.com/mathias270197/figurereview-service
 Postman:
 
 https://edge-service-mathias270197.cloud.okteto.net/numberOfStepReviewsByFigure
+
+![image](https://user-images.githubusercontent.com/58940744/201534190-0bd5cb51-2ea5-497e-b441-ad57d8a04536.png)
+
  
 
 https://edge-service-mathias270197.cloud.okteto.net/reviewAndStepsOfFigure/Duck
  
- 
+ ![image](https://user-images.githubusercontent.com/58940744/201534194-f76b2e28-fd44-410e-821d-e9a5454328d7.png)
+
 
 https://edge-service-mathias270197.cloud.okteto.net/figureReview
 {"id":null,"figureName":"Chicken","date":1666947596193,"textReview":"Eenvoudige stappen","stars":3,"user":"Mathias"}
 
 
+![image](https://user-images.githubusercontent.com/58940744/201534197-92f0c445-f48f-4bb7-b94e-e8be7233d796.png)
 
  
 
 https://edge-service-mathias270197.cloud.okteto.net/figureReview
 {"id":null,"figureName":"Chicken","date":1666947596193,"textReview":"Eenvoudige stappen, goed omschreven","stars":4,"user":"Mathias"}
 
+![image](https://user-images.githubusercontent.com/58940744/201534205-339d4924-c6a6-434c-95bd-b9617bb719a2.png)
+
  
 
 https://edge-service-mathias270197.cloud.okteto.net/figureReviewByNameAndUser/Chicken/Mathias
  
+ ![image](https://user-images.githubusercontent.com/58940744/201534210-fb15e0af-2f60-423c-8eb7-5b929b482d4f.png)
+
+ 
 
 https://edge-service-mathias270197.cloud.okteto.net//averageStarRatingOfFigure/House
  
+![image](https://user-images.githubusercontent.com/58940744/201534220-5d90c149-e592-49ec-9165-7226f6d1b28e.png)
+
+
 
 https://edge-service-mathias270197.cloud.okteto.net/figureReviewByNameAndUser/House/Stijn
  
+![image](https://user-images.githubusercontent.com/58940744/201534222-cca8ff97-5b07-4624-97a4-784eb6677c63.png)
 
 
 
