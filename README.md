@@ -74,3 +74,16 @@ Swagger UI:
 ![image](https://user-images.githubusercontent.com/58940744/201533981-c614841a-9b24-4922-a46d-45216c9d69fb.png)
 
 ![image](https://user-images.githubusercontent.com/58940744/201533988-224154f3-8e52-48b9-9267-1ab61e736354.png)
+
+test coverage:
+
+steps-service:
+![image](https://user-images.githubusercontent.com/58940744/202681621-a0c36919-5a01-44a9-84ae-f550788e47f1.png)
+
+figurereview-service:
+![image](https://user-images.githubusercontent.com/58940744/202681771-54d6e4bd-109d-4fa4-8e7d-d3fb247bae7d.png)
+
+edge-service:
+![image](https://user-images.githubusercontent.com/58940744/202681905-a289203e-039c-44eb-950a-579c2c2190a9.png)
+
+
